@@ -1,47 +1,42 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
+import { ref, onMounted } from "vue";
+import KatarsisSorter from "./components/KatarsisSorter.vue";
+
+const currentView = ref(window.location.pathname === "/katarsisSorter" ? "katarsisSorter" : "home");
+
+function openKatarsisSorter() {
+	currentView.value = "katarsisSorter";
+	window.history.pushState({}, "", "/katarsisSorter");
+}
+
+function syncViewFromPath() {
+	currentView.value = window.location.pathname === "/katarsisSorter" ? "katarsisSorter" : "home";
+}
+
+onMounted(() => {
+	window.addEventListener("popstate", syncViewFromPath);
+});
 </script>
 
 <template>
-	<header>
-		<img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-		<div class="wrapper">
-			<HelloWorld msg="You did it!" />
-		</div>
-	</header>
-
-	<main>
-		<TheWelcome />
-	</main>
+	<v-app>
+		<v-main class="fill-height d-flex align-center justify-center">
+			<v-container v-if="currentView === 'home'" fluid style="max-width: 800px">
+				<!-- Title -->
+				<v-row justify="center">
+					<v-col cols="12" class="text-center">
+						<h1>Sorter</h1>
+						<p>Pick a sorter to start sorting songs, albums or others.</p>
+					</v-col>
+				</v-row>
+				<!-- Sorters-->
+				<v-row justify="center">
+					<v-col>
+						<v-btn block prepend-icon="$vuetify" stacked variant="tonal" @click="openKatarsisSorter">Katarsis Sorter</v-btn>
+					</v-col>
+				</v-row>
+			</v-container>
+			<KatarsisSorter v-else />
+		</v-main>
+	</v-app>
 </template>
-
-<style scoped>
-header {
-	line-height: 1.5;
-}
-
-.logo {
-	display: block;
-	margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-	header {
-		display: flex;
-		place-items: center;
-		padding-right: calc(var(--section-gap) / 2);
-	}
-
-	.logo {
-		margin: 0 2rem 0 0;
-	}
-
-	header .wrapper {
-		display: flex;
-		place-items: flex-start;
-		flex-wrap: wrap;
-	}
-}
-</style>
