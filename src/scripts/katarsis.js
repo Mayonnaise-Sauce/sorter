@@ -34,4 +34,8 @@ export default {
 		"Nebepaleidžia",
 		"Surasiu"
 	],
+	albums: [
+		"Dausos",
+		"Žiedlapis tau"
+	]
 };

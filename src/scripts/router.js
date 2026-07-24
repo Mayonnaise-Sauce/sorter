@@ -8,19 +8,39 @@ const routes = [
 		component: Home,
 	},
 	{
-		name: "katarsisSorter",
-		path: "/katarsisSorter",
+		name: "katarsisSongs",
+		path: "/katarsis/songs",
 		component: Sorter,
 		props: {
 			sorter: "katarsis",
+			type: "songs"
 		},
 	},
 	{
-		name: "akliSorter",
-		path: "/akliSorter",
+		name: "katarsisAlbums",
+		path: "/katarsis/albums",
+		component: Sorter,
+		props: {
+			sorter: "katarsis",
+			type: "albums"
+		},
+	},
+	{
+		name: "akliSongs",
+		path: "/akli/songs",
 		component: Sorter,
 		props: {
 			sorter: "akli",
+			type: "songs"
+		},
+	},
+	{
+		name: "akliAlbums",
+		path: "/akli/albums",
+		component: Sorter,
+		props: {
+			sorter: "akli",
+			type: "albums"
 		},
 	},
 ];

@@ -10,10 +10,8 @@ const sorterActions = inject("sorterActions");
 
 // Component prop that determines which sorter configuration to load
 const props = defineProps({
-	sorter: {
-		type: String,
-		required: true,
-	},
+	sorter: String,
+	type: String,
 });
 
 // Available sorter configurations
@@ -24,21 +22,27 @@ const sorters = {
 
 // Initialize the selected sorter once the component is ready
 onMounted(() => {
-	sorterActions.initSorter(sorters[props.sorter]);
+	const sorter = sorters[props.sorter];
+
+	sorterActions.initSorter({
+		id: sorter.id,
+		title: sorter.title,
+		items: sorter[props.type],
+	});
 });
 
 // Gets the current left option displayed in the battle
-const leftSong = computed(() => {
+const leftItem = computed(() => {
 	const index = sorterState.lists[sorterState.currentLeftList]?.[sorterState.leftIndex];
 
-	return sorterState.values1[index];
+	return sorterState.sortingItems[index];
 });
 
 // Gets the current right option displayed in the battle
-const rightSong = computed(() => {
+const rightItem = computed(() => {
 	const index = sorterState.lists[sorterState.currentRightList]?.[sorterState.rightIndex];
 
-	return sorterState.values1[index];
+	return sorterState.sortingItems[index];
 });
 
 // Sends the user's choice to the sorter logic
@@ -74,7 +78,7 @@ function choose(value) {
 		<v-row v-if="!sorterState.finished" style="height: 20%" align="stretch">
 			<v-col cols="4">
 				<button class="w-100 h-100" @click="choose(-1)">
-					{{ leftSong }}
+					{{ leftItem }}
 				</button>
 			</v-col>
 			<v-col cols="4" class="d-flex flex-column">
@@ -84,7 +88,7 @@ function choose(value) {
 			</v-col>
 			<v-col cols="4">
 				<button class="w-100 h-100" @click="choose(1)">
-					{{ rightSong }}
+					{{ rightItem }}
 				</button>
 			</v-col>
 		</v-row>
@@ -96,7 +100,7 @@ function choose(value) {
 					<thead>
 						<tr>
 							<th class="text-center">Rank</th>
-							<th class="text-center">Option</th>
+							<th class="text-center">Items</th>
 						</tr>
 					</thead>
 					<tbody>

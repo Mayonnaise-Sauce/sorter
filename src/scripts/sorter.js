@@ -2,7 +2,7 @@ import { reactive } from "vue";
 
 // Default values used to initialize and reset the sorter state
 const initialState = {
-	values1: [], // Original items to sort
+	sortingItems: [], // Original items to sort
 	lists: [], // Lists used during the merge sort process
 	parents: [], // Parent list index for each generated sublist
 	equals: [], // Stores items considered equal by the user
@@ -41,8 +41,8 @@ export function useSorter() {
 	function initSorter(sorter) {
 		reset();
 
-		state.values1 = [...sorter.songs];
-		state.lists = [state.values1.map((_, index) => index)];
+		state.sortingItems = [...sorter.items];
+		state.lists = [state.sortingItems.map((_, index) => index)];
 		state.parents = [-1];
 
 		for (let i = 0; i < state.lists.length; i++) {
@@ -57,7 +57,7 @@ export function useSorter() {
 			state.parents.push(i, i);
 		}
 
-		state.equals = Array(state.values1.length).fill(-1);
+		state.equals = Array(state.sortingItems.length).fill(-1);
 		state.currentLeftList = state.lists.length - 2;
 		state.currentRightList = state.lists.length - 1;
 	}
@@ -133,7 +133,7 @@ export function useSorter() {
 
 		state.ranking = state.lists[0].map((item, index) => ({
 			position: index + 1,
-			name: state.values1[item],
+			name: state.sortingItems[item],
 		}));
 	}
 

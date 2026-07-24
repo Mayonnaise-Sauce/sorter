@@ -36,4 +36,9 @@ export default {
         "ŽGŽ",
         "Morfinas"
     ],
+    albums: [
+        "Taika",
+        "Refleksija",
+        "III"
+    ]
 };
