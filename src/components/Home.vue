@@ -1,8 +1,25 @@
 <script setup>
 import { ref } from "vue";
 
-// Stores the currently selected artist
+import katarsisIcon from "@/assets/icons/katarsis.jpg";
+import akliIcon from "@/assets/icons/akli.jpg";
+import customIcon from "@/assets/icons/custom.png";
+
+// ! Stores the currently selected artist
 const selectedArtist = ref(null);
+
+const artists = [
+	{
+		name: "Katarsis",
+		value: "katarsis",
+		icon: katarsisIcon,
+	},
+	{
+		name: "Aklì",
+		value: "akli",
+		icon: akliIcon,
+	},
+];
 </script>
 
 <template>
@@ -17,17 +34,19 @@ const selectedArtist = ref(null);
 			</v-col>
 		</v-row>
 		<v-row justify="center">
-			<!-- KATARSIS SORTER -->
-			<v-col>
-				<v-btn block prepend-icon="$vuetify" stacked variant="tonal" @click="selectedArtist = 'katarsis'">Katarsis Sorter</v-btn>
-			</v-col>
-			<!-- AKLI SORTER -->
-			<v-col>
-				<v-btn block prepend-icon="$vuetify" stacked variant="tonal" @click="selectedArtist = 'akli'">Aklì Sorter</v-btn>
+			<!-- ARTIST SORTER -->
+			<v-col class="text-center" v-for="artist in artists" :key="artist.value">
+				<v-btn icon variant="text" width="80" height="80" @click="selectedArtist = artist.value">
+					<v-avatar class="mb-4" size="80" :image="artist.icon" />
+				</v-btn>
+				<p>{{ artist.name }} Sorter</p>
 			</v-col>
 			<!-- CUSTOM SORTER -->
-			<v-col>
-				<v-btn prepend-icon="$vuetify" variant="tonal" block stacked :to="{ path: 'custom' }">Custom Sorter</v-btn>
+			<v-col class="text-center">
+				<v-btn variant="text" icon width="80" height="80" :to="{ path: 'custom' }">
+					<v-avatar class="mb-4" size="80" :image="customIcon" />
+				</v-btn>
+				<p>Custom Sorter</p>
 			</v-col>
 		</v-row>
 		<v-row justify="center" v-show="selectedArtist === 'katarsis'">
