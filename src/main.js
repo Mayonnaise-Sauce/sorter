@@ -1,31 +1,29 @@
-import "./assets/main.css";
+import "@/assets/main.css";
 
 import { createApp } from "vue";
 
-import App from "./App.vue";
+import App from "@/App.vue";
 
-import router from "./scripts/router.js";
+import router from "@/scripts/router.js";
 
-import { useSorter } from "./scripts/sorter.js";
+import { useSorter } from "@/scripts/sorter.js";
 
 import "vuetify/styles";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 
-// Create the Vue application instance using the root component
+// Creates the Vue application instance using the root component
 const app = createApp(App);
 
-// Initialize the sorter manager
+// Creates the sorter manager and its reactive state
 const sorter = useSorter();
 
-// Provide sorter state globally so any component can access it using inject()
+// Makes the sorter state and sorter actions available to all components using inject()
 app.provide("sorterState", sorter.state);
-
-// Provide sorter actions globally so components can execute sorter operations
 app.provide("sorterActions", sorter);
 
-// Register Vuetify as a Vue plugin
+// Adds Vuetify to the Vue application
 app.use(
 	createVuetify({
 		components,
@@ -33,8 +31,8 @@ app.use(
 	}),
 );
 
-// Register Vue Router to enable navigation between views
+// Adds Vue Router to handle page navigation
 app.use(router);
 
-// Mount the Vue application to the HTML element with id="app"
+// Starts the Vue application inside the #app element
 app.mount("#app");

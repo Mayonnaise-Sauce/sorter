@@ -3,10 +3,10 @@ import { reactive } from "vue";
 // Default values used to initialize and reset the sorter state
 const initialState = {
 	sortingItems: [], // Original items to sort
-	lists: [], // Lists used during the merge sort process
-	parents: [], // Parent list index for each generated sublist
+	lists: [], // Lists created while splitting the items
+	parents: [], // Stores which list created each smaller list
 	equals: [], // Stores items considered equal by the user
-	results: [], // Temporary results while merging two lists
+	results: [], // Temporary list used while merging items
 
 	leftIndex: 0, // Current position in the left list
 	rightIndex: 0, // Current position in the right list
@@ -14,9 +14,9 @@ const initialState = {
 	currentLeftList: 0, // Index of the current left list being compared
 	currentRightList: 0, // Index of the current right list being compared
 
-	question: 1, // Current battle/question number
+	question: 1, // Current battle number
 
-	totalSize: 0, // Total number of comparisons required
+	totalSize: 0, // Total number of comparisons needed
 	finishedSize: 0, // Number of comparisons already completed
 
 	finished: false, // Indicates whether sorting has finished
@@ -24,20 +24,18 @@ const initialState = {
 	ranking: [], // Final sorted ranking
 };
 
-// Composable that manages the sorting algorithm state and actions
+// Creates and manages the state and actions of the sorter
 export function useSorter() {
-	// Create reactive state so Vue components update automatically
 	const state = reactive({
 		...initialState,
 	});
 
-	// Resets the sorter state to its initial values
+	// Resets the sorter back to its initial state
 	function reset() {
 		Object.assign(state, structuredClone(initialState));
 	}
 
-	// Initializes the sorter with a new set of items
-	// Creates the initial list and splits it into smaller lists following a merge sort approach
+	// Starts a sorter using the given sorter data
 	function initSorter(sorter) {
 		reset();
 
@@ -60,6 +58,15 @@ export function useSorter() {
 		state.equals = Array(state.sortingItems.length).fill(-1);
 		state.currentLeftList = state.lists.length - 2;
 		state.currentRightList = state.lists.length - 1;
+	}
+
+	// Creates a sorter using a custom list of items
+	function initCustomSorter(items) {
+		initSorter({
+			id: "custom",
+			title: "Custom Sorter",
+			items,
+		});
 	}
 
 	// Handles the user's choice during a comparison
@@ -142,10 +149,11 @@ export function useSorter() {
 		return state.totalSize ? Math.floor((state.finishedSize * 100) / state.totalSize) : 0;
 	}
 
-	// Expose state and public actions to Vue components
+	// Makes the state and these functions available to Vue components
 	return {
 		state,
 		initSorter,
+		initCustomSorter,
 		choose,
 		progress,
 	};

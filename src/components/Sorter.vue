@@ -1,27 +1,31 @@
 <script setup>
 import { computed, inject, onMounted } from "vue";
 
-import katarsis from "../scripts/katarsis.js";
-import akli from "../scripts/akli.js";
+import katarsis from "@/scripts/katarsis.js";
+import akli from "@/scripts/akli.js";
 
-// Access global sorter state and actions provided in main.js
+// Accesses global sorter state and actions provided in main.js
 const sorterState = inject("sorterState");
 const sorterActions = inject("sorterActions");
 
-// Component prop that determines which sorter configuration to load
+// Defines the data received from the current route
 const props = defineProps({
 	sorter: String,
 	type: String,
 });
 
-// Available sorter configurations
+// ! Stores all available sorter configurations
 const sorters = {
 	katarsis,
 	akli,
 };
 
-// Initialize the selected sorter once the component is ready
+// Initializes the selected sorter once the component is ready
 onMounted(() => {
+	if (props.sorter === "custom") {
+		return;
+	}
+
 	const sorter = sorters[props.sorter];
 
 	sorterActions.initSorter({
@@ -45,9 +49,9 @@ const rightItem = computed(() => {
 	return sorterState.sortingItems[index];
 });
 
-// Sends the user's choice to the sorter logic
+// Send the user's choice to the sorter
 // -1 = left option selected
-//  0 = both options are equal / no preference
+//  0 = both options are equal
 //  1 = right option selected
 function choose(value) {
 	sorterActions.choose(value);
@@ -58,7 +62,9 @@ function choose(value) {
 	<v-container class="fill-height">
 		<v-row justify="center">
 			<v-col cols="12" class="text-center">
-				<h2>{{ sorters[sorter]?.title }}</h2>
+				<h2>
+					{{ props.sorter === "custom" ? "CUSTOM SORTER" : sorters[sorter]?.title }}
+				</h2>
 				<p>
 					Choose the option you prefer in each battle to create an accurate ranking of your favorite items from the group.
 					<br />
@@ -75,6 +81,7 @@ function choose(value) {
 				</h3>
 			</v-col>
 		</v-row>
+		<!-- ITEM BUTTONS -->
 		<v-row v-if="!sorterState.finished" style="height: 20%" align="stretch">
 			<v-col cols="4">
 				<button class="w-100 h-100" @click="choose(-1)">
@@ -92,6 +99,7 @@ function choose(value) {
 				</button>
 			</v-col>
 		</v-row>
+		<!-- RESULTS TABLE -->
 		<v-row v-else justify="center">
 			<v-col cols="12" class="text-center">
 				<h2>Ranking</h2>
