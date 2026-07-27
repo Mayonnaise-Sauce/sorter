@@ -1,8 +1,7 @@
 <script setup>
-import { computed, inject, onMounted } from "vue";
+import { computed, inject, watch } from "vue";
 
-import katarsis from "@/scripts/katarsis.js";
-import akli from "@/scripts/akli.js";
+import { artists } from "@/scripts/artists.js";
 
 // Accesses global sorter state and actions provided in main.js
 const sorterState = inject("sorterState");
@@ -14,25 +13,32 @@ const props = defineProps({
 	type: String,
 });
 
-// ! Stores all available sorter configurations
-const sorters = {
-	katarsis,
-	akli,
-};
+// Initializes the sorter when the route changes
+watch(
+	() => [props.sorter, props.type],
+	() => {
+		if (props.sorter === "custom") {
+			return;
+		}
 
-// Initializes the selected sorter once the component is ready
-onMounted(() => {
-	if (props.sorter === "custom") {
-		return;
-	}
+		const artist = artists.find((artist) => artist.id === props.sorter);
 
-	const sorter = sorters[props.sorter];
+		if (!artist) {
+			return;
+		}
 
-	sorterActions.initSorter({
-		id: sorter.id,
-		title: sorter.title,
-		items: sorter[props.type],
-	});
+		sorterActions.initSorter({
+			id: artist.data.id,
+			title: artist.data.title,
+			items: artist.data[props.type],
+		});
+	},
+	{ immediate: true },
+);
+
+// Gets current artist data based on the route parameter
+const currentArtist = computed(() => {
+	return artists.find((artist) => artist.id === props.sorter);
 });
 
 // Gets the current left option displayed in the battle
@@ -63,7 +69,7 @@ function choose(value) {
 		<v-row justify="center">
 			<v-col cols="12" class="text-center">
 				<h2>
-					{{ props.sorter === "custom" ? "CUSTOM SORTER" : sorters[sorter]?.title }}
+					{{ props.sorter === "custom" ? "CUSTOM SORTER" : currentArtist?.data.title }}
 				</h2>
 				<p>
 					Choose the option you prefer in each battle to create an accurate ranking of your favorite items from the group.
