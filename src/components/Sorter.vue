@@ -72,9 +72,8 @@ function choose(value) {
 					{{ props.sorter === "custom" ? "CUSTOM SORTER" : currentArtist?.data.title }}
 				</h2>
 				<p>
-					Choose the option you prefer in each battle to create an accurate ranking of your favorite items from the group.
-					<br />
-					Note: Selecting "No opinion" or "I like both" too often may reduce the accuracy of your results.
+					Choose the option you prefer in each battle to create an accurate ranking of your favorite items. <br />
+					Note: Selecting "I like both" or "No opinion" too often may affect the accuracy of your results.
 				</p>
 			</v-col>
 		</v-row>

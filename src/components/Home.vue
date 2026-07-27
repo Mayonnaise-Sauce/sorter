@@ -20,9 +20,8 @@ function openArtistDialog(artist) {
 			<v-col cols="12" class="text-center">
 				<h1>Sorter</h1>
 				<p>
-					Pick an artist to start sorting their songs or albums.
-					<br />
-					Choose "Custom Sorter" for a customized sorter.
+					Pick an artist to start sorting their songs or albums. <br />
+					Choose "Custom Sorter" to create your own custom ranking.
 				</p>
 			</v-col>
 		</v-row>
@@ -51,7 +50,7 @@ function openArtistDialog(artist) {
 		<v-dialog v-model="artistDialog">
 			<v-card>
 				<v-card-title class="text-center pt-8"> {{ selectedArtist?.name }} Sorter </v-card-title>
-				<v-card-text class="text-center pb-8">
+				<v-card-text class="text-center">
 					<p>What do you want to sort?</p>
 					<v-row>
 						<v-col>

@@ -45,13 +45,10 @@ function done() {
 			<v-col cols="12" class="text-center">
 				<h1>CUSTOM SORTER</h1>
 				<p>
-					Welcome to the custom sorter.
-					<br />
-					In this sorter you can input your own options to sort in the box.
-					<br />
-					You can add as many options as you want.
-					<br />
-					Once you're done click on the "Done" button to start sorting.
+					Welcome to the Custom Sorter. <br />
+					Enter the options you want to sort in the box below. <br />
+					You can add as many options as you like. <br />
+					Once you're done, click the "Done" button to start sorting.
 				</p>
 			</v-col>
 		</v-row>
