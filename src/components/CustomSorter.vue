@@ -41,6 +41,7 @@ function done() {
 
 <template>
 	<v-container class="fill-height">
+		<!-------------------- TITLE -------------------->
 		<v-row justify="center">
 			<v-col cols="12" class="text-center">
 				<h1>CUSTOM SORTER</h1>
@@ -52,7 +53,7 @@ function done() {
 				</p>
 			</v-col>
 		</v-row>
-		<!-- INPUT FIELD -->
+		<!-------------------- INPUT FIELD -------------------->
 		<v-row justify="center">
 			<v-col cols="6">
 				<v-text-field v-model="input" label="Items to sort" variant="outlined" clearable hide-details @keyup.enter="addItem" />
@@ -61,7 +62,7 @@ function done() {
 				<v-btn class="w-100 h-100" @click="addItem"> Add </v-btn>
 			</v-col>
 		</v-row>
-		<!-- LIST OF ITEMS -->
+		<!-------------------- LIST OF ITEMS -------------------->
 		<v-row justify="center" v-show="items.length > 0">
 			<v-col cols="8">
 				<v-list>
@@ -74,7 +75,7 @@ function done() {
 				</v-list>
 			</v-col>
 		</v-row>
-		<!-- DONE BUTTON -->
+		<!-------------------- DONE BUTTON -------------------->
 		<v-row justify="center">
 			<v-col cols="1">
 				<v-btn :disabled="items.length < 2" @click="done"> Done </v-btn>

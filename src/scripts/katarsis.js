@@ -37,5 +37,24 @@ export default {
 	albums: [
 		"Dausos",
 		"Žiedlapis tau"
+	],
+	dausos: [
+		"Paleisiu",
+		"Pamiršau žiūrėt į paukščius",
+		"Tyla",
+		"Nebeturiu jėgų",
+		"Ji netikra",
+	],
+	ziedlapisTau: [
+		"Žiedlapis tau",
+		"Likę tik randai",
+		"Kada",
+		"Laikei tu mane",
+		"Neleisk man",
+		"Malda",
+		"Tavo Akys",
+		"Kas man be jūros",
+		"Nebepaleidžia",
+		"Surasiu"
 	]
 };

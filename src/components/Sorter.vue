@@ -7,48 +7,71 @@ import { artists } from "@/scripts/artists.js";
 const sorterState = inject("sorterState");
 const sorterActions = inject("sorterActions");
 
-// Defines the data received from the current route
+// Data received from the current route
 const props = defineProps({
 	sorter: String,
 	type: String,
+	album: String,
 });
 
+// Find the current artist
+const artist = computed(() => {
+	return artists.find((artist) => artist.id === props.sorter);
+});
+
+// Get the current artist's data
+const currentData = computed(() => {
+	return artist.value?.data;
+});
+
+// Converts special characters into a simple format for comparison
+function normalize(value) {
+	return value
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.toLowerCase()
+		.replace(/[\s-]+/g, "");
+}
+
+// Converts a URL album ID into the internal data key
+// Example: ziedlapis-tau -> ziedlapisTau
+function getAlbumKey(album) {
+	return Object.keys(artist.value.data).find((key) => normalize(key) === normalize(album));
+}
+
 // Initializes the sorter when the route changes
+// Initialize the sorter when the route changes
 watch(
-	() => [props.sorter, props.type],
+	() => [props.sorter, props.type, props.album],
 	() => {
-		if (props.sorter === "custom") {
+		if (!artist.value) {
 			return;
 		}
 
-		const artist = artists.find((artist) => artist.id === props.sorter);
+		const type = props.album ? getAlbumKey(props.album) : props.type;
+		const items = artist.value.data[type];
 
-		if (!artist) {
+		if (!items) {
 			return;
 		}
 
 		sorterActions.initSorter({
-			id: artist.data.id,
-			title: artist.data.title,
-			items: artist.data[props.type],
+			id: artist.value.data.id,
+			title: artist.value.data.title,
+			items,
 		});
 	},
 	{ immediate: true },
 );
 
-// Gets current artist data based on the route parameter
-const currentArtist = computed(() => {
-	return artists.find((artist) => artist.id === props.sorter);
-});
-
-// Gets the current left option displayed in the battle
+// Gets the current left item
 const leftItem = computed(() => {
 	const index = sorterState.lists[sorterState.currentLeftList]?.[sorterState.leftIndex];
 
 	return sorterState.sortingItems[index];
 });
 
-// Gets the current right option displayed in the battle
+// Gets the current right item
 const rightItem = computed(() => {
 	const index = sorterState.lists[sorterState.currentRightList]?.[sorterState.rightIndex];
 
@@ -66,17 +89,17 @@ function choose(value) {
 
 <template>
 	<v-container class="fill-height">
+		<!-------------------- TITLE -------------------->
 		<v-row justify="center">
 			<v-col cols="12" class="text-center">
-				<h2>
-					{{ props.sorter === "custom" ? "CUSTOM SORTER" : currentArtist?.data.title }}
-				</h2>
+				<h2>{{ props.sorter === "custom" ? "CUSTOM SORTER" : currentData?.title }}</h2>
 				<p>
 					Choose the option you prefer in each battle to create an accurate ranking of your favorite items. <br />
 					Note: Selecting "I like both" or "No opinion" too often may affect the accuracy of your results.
 				</p>
 			</v-col>
 		</v-row>
+		<!-------------------- BATTLE -------------------->
 		<v-row v-if="!sorterState.finished" justify="center">
 			<v-col cols="12" class="text-center">
 				<h3>
@@ -86,7 +109,7 @@ function choose(value) {
 				</h3>
 			</v-col>
 		</v-row>
-		<!-- ITEM BUTTONS -->
+		<!-------------------- ITEM BUTTONS -------------------->
 		<v-row v-if="!sorterState.finished" style="height: 20%" align="stretch">
 			<v-col cols="4">
 				<button class="w-100 h-100" @click="choose(-1)">
@@ -95,7 +118,6 @@ function choose(value) {
 			</v-col>
 			<v-col cols="4" class="d-flex flex-column">
 				<button class="w-100 h-100 mb-2" @click="choose(0)">I like both</button>
-
 				<button class="w-100 h-100" @click="choose(0)">No opinion</button>
 			</v-col>
 			<v-col cols="4">
@@ -104,7 +126,7 @@ function choose(value) {
 				</button>
 			</v-col>
 		</v-row>
-		<!-- RESULTS TABLE -->
+		<!-------------------- RESULTS TABLE -------------------->
 		<v-row v-else justify="center">
 			<v-col cols="12" class="text-center">
 				<h2>Ranking</h2>

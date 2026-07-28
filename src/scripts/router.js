@@ -1,50 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/components/Home.vue";
+import SorterSelector from "@/components/SorterSelector.vue";
 import Sorter from "@/components/Sorter.vue";
 import CustomSorter from "@/components/CustomSorter.vue";
 
-// ! Defines all the routes used by the application
+// Defines all the routes used by the application
 const routes = [
 	{
 		path: "/",
 		component: Home,
 	},
-	{
-		name: "katarsisSongs",
-		path: "/katarsis/songs",
-		component: Sorter,
-		props: {
-			sorter: "katarsis",
-			type: "songs",
-		},
-	},
-	{
-		name: "katarsisAlbums",
-		path: "/katarsis/albums",
-		component: Sorter,
-		props: {
-			sorter: "katarsis",
-			type: "albums",
-		},
-	},
-	{
-		name: "akliSongs",
-		path: "/akli/songs",
-		component: Sorter,
-		props: {
-			sorter: "akli",
-			type: "songs",
-		},
-	},
-	{
-		name: "akliAlbums",
-		path: "/akli/albums",
-		component: Sorter,
-		props: {
-			sorter: "akli",
-			type: "albums",
-		},
-	},
+	// -------------------- CUSTOM SORTER --------------------
 	{
 		name: "custom",
 		path: "/custom",
@@ -57,6 +23,25 @@ const routes = [
 		props: {
 			sorter: "custom",
 		},
+	},
+	// -------------------- ARTIST SORTERS --------------------
+	{
+		name: "sorterSelector",
+		path: "/:sorter",
+		component: SorterSelector,
+		props: true,
+	},
+	{
+		name: "albumSongs",
+		path: "/:sorter/albums/:type",
+		component: Sorter,
+		props: true,
+	},
+	{
+		name: "sorter",
+		path: "/:sorter/:type",
+		component: Sorter,
+		props: true,
 	},
 ];
 

@@ -35,11 +35,24 @@ export function useSorter() {
 		Object.assign(state, structuredClone(initialState));
 	}
 
+	// Returns a randomly shuffled copy of an array
+	function shuffle(items) {
+		const shuffled = [...items];
+
+		for (let i = shuffled.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+
+			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+		}
+
+		return shuffled;
+	}
+
 	// Starts a sorter using the given sorter data
 	function initSorter(sorter) {
 		reset();
 
-		state.sortingItems = [...sorter.items];
+		state.sortingItems = shuffle(sorter.items);
 		state.lists = [state.sortingItems.map((_, index) => index)];
 		state.parents = [-1];
 
