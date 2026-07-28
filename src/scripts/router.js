@@ -47,7 +47,7 @@ const routes = [
 
 // Create the Vue Router instance
 const router = createRouter({
-	history: createWebHistory(), // Uses the browser URL without adding a "#"
+	history: createWebHistory(import.meta.env.BASE_URL),
 	routes,
 });
 

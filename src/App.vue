@@ -1,4 +1,6 @@
 <script setup>
+import packageJson from "@/../package.json";
+
 import { artists } from "@/scripts/artists.js";
 
 // Converts special characters into a simple format for comparison
@@ -71,7 +73,7 @@ function getAlbumPath(artist, album) {
 		</v-main>
 		<!-------------------- FOOTER -------------------->
 		<v-footer class="flex-grow-0 d-flex align-center justify-center">
-			<span class="text-body-small my-4">Created by Mayonnaise_Sauce</span>
+			<span class="text-body-small my-4">Created by Mayonnaise_Sauce · v{{ packageJson.version }}</span>
 		</v-footer>
 	</v-app>
 </template>
