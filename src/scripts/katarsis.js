@@ -1,3 +1,6 @@
+import dausosIcon from "@/assets/icons/katarsis/dausos.jpg"
+import ziedlapisTauIcon from "@/assets/icons/katarsis/ziedlapisTau.jpg"
+
 export default {
 	id: "katarsis",
 	title: "KATARSIS SORTER",
@@ -35,26 +38,34 @@ export default {
 		"Surasiu"
 	],
 	albums: [
-		"Dausos",
-		"Žiedlapis tau"
+		{
+			id: "dausos",
+			name: "Dausos",
+			icon: dausosIcon,
+			songs: [
+				"Paleisiu",
+				"Pamiršau žiūrėt į paukščius",
+				"Tyla",
+				"Nebeturiu jėgų",
+				"Ji netikra",
+			],
+		},
+		{
+			id: "ziedlapis-tau",
+			name: "Žiedlapis tau",
+			icon: ziedlapisTauIcon,
+			songs: [
+				"Žiedlapis tau",
+				"Likę tik randai",
+				"Kada",
+				"Laikei tu mane",
+				"Neleisk man",
+				"Malda",
+				"Tavo Akys",
+				"Kas man be jūros",
+				"Nebepaleidžia",
+				"Surasiu"
+			],
+		},
 	],
-	dausos: [
-		"Paleisiu",
-		"Pamiršau žiūrėt į paukščius",
-		"Tyla",
-		"Nebeturiu jėgų",
-		"Ji netikra",
-	],
-	ziedlapisTau: [
-		"Žiedlapis tau",
-		"Likę tik randai",
-		"Kada",
-		"Laikei tu mane",
-		"Neleisk man",
-		"Malda",
-		"Tavo Akys",
-		"Kas man be jūros",
-		"Nebepaleidžia",
-		"Surasiu"
-	]
 };

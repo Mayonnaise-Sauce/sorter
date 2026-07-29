@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+
 import Home from "@/components/Home.vue";
 import SorterSelector from "@/components/SorterSelector.vue";
 import Sorter from "@/components/Sorter.vue";
@@ -33,9 +34,12 @@ const routes = [
 	},
 	{
 		name: "albumSongs",
-		path: "/:sorter/albums/:type",
+		path: "/:sorter/albums/:album",
 		component: Sorter,
-		props: true,
+		props: (route) => ({
+			sorter: route.params.sorter,
+			album: route.params.album,
+		}),
 	},
 	{
 		name: "sorter",

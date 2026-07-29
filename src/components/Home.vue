@@ -1,5 +1,4 @@
 <script setup>
-// ! Artists import
 import customIcon from "@/assets/icons/custom.png";
 import { artists } from "@/scripts/artists.js";
 </script>

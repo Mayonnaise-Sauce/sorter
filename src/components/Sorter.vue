@@ -24,32 +24,35 @@ const currentData = computed(() => {
 	return artist.value?.data;
 });
 
-// Converts special characters into a simple format for comparison
-function normalize(value) {
-	return value
-		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, "")
-		.toLowerCase()
-		.replace(/[\s-]+/g, "");
-}
+// Gets the items that should be sorted
+function getItems() {
+	if (!artist.value) {
+		return null;
+	}
 
-// Converts a URL album ID into the internal data key
-// Example: ziedlapis-tau -> ziedlapisTau
-function getAlbumKey(album) {
-	return Object.keys(artist.value.data).find((key) => normalize(key) === normalize(album));
+	// Sort songs from a specific album
+	if (props.album) {
+		const album = artist.value.data.albums.find(
+			(album) => album.id === props.album
+		);
+
+		return album?.songs;
+	}
+
+	// Sort all albums
+	if (props.type === "albums") {
+		return artist.value.data.albums.map((album) => album.name);
+	}
+
+	// Sort all songs
+	return artist.value.data[props.type];
 }
 
 // Initializes the sorter when the route changes
-// Initialize the sorter when the route changes
 watch(
 	() => [props.sorter, props.type, props.album],
 	() => {
-		if (!artist.value) {
-			return;
-		}
-
-		const type = props.album ? getAlbumKey(props.album) : props.type;
-		const items = artist.value.data[type];
+		const items = getItems();
 
 		if (!items) {
 			return;

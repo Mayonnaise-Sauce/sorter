@@ -2,25 +2,6 @@
 import packageJson from "@/../package.json";
 
 import { artists } from "@/scripts/artists.js";
-
-// Converts special characters into a simple format for comparison
-function normalize(value) {
-	return value
-		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, "")
-		.toLowerCase()
-		.replace(/\s+/g, "");
-}
-
-// Creates the route for the selected album
-// Example: ziedlapisTau -> ziedlapis-tau
-function getAlbumPath(artist, album) {
-	const albumKey = Object.keys(artist.data).find((key) => normalize(key) === normalize(album));
-
-	const urlAlbum = albumKey.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-
-	return `/${artist.id}/albums/${urlAlbum}`;
-}
 </script>
 
 <template>
@@ -56,9 +37,9 @@ function getAlbumPath(artist, album) {
 							</v-list-item>
 						</template>
 						<v-list>
-							<v-list-item v-for="album in artist.data.albums" :key="album" :to="getAlbumPath(artist, album)">
+							<v-list-item v-for="album in artist.data.albums" :key="album.id" :to="`/${artist.id}/albums/${album.id}`">
 								<v-list-item-title>
-									{{ album }}
+									{{ album.name }}
 								</v-list-item-title>
 							</v-list-item>
 						</v-list>
@@ -73,7 +54,7 @@ function getAlbumPath(artist, album) {
 		</v-main>
 		<!-------------------- FOOTER -------------------->
 		<v-footer class="flex-grow-0 d-flex align-center justify-center">
-			<span class="text-body-small my-4">Created by Mayonnaise_Sauce · v{{ packageJson.version }}</span>
+			<span class="text-body-small my-4"> Created by Mayonnaise_Sauce · v{{ packageJson.version }} </span>
 		</v-footer>
 	</v-app>
 </template>

@@ -17,25 +17,6 @@ const artist = computed(() => {
 
 // Controls whether the album selection dialog is open
 const albumDialog = ref(false);
-
-// Converts special characters into a simple format for comparison
-function normalize(value) {
-	return value
-		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, "")
-		.toLowerCase()
-		.replace(/[\s-]+/g, "");
-}
-
-// Creates the route for the selected album
-// Example: ziedlapisTau -> ziedlapis-tau
-function getAlbumPath(album) {
-	const albumKey = Object.keys(artist.value.data).find((key) => normalize(key) === normalize(album));
-
-	const urlAlbum = albumKey.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-
-	return `/${artist.value.id}/albums/${urlAlbum}`;
-}
 </script>
 
 <template>
@@ -71,15 +52,16 @@ function getAlbumPath(album) {
 		<!-------------------- ALBUM SELECTION DIALOG -------------------->
 		<v-dialog v-model="albumDialog" max-width="500">
 			<v-card>
-				<v-card-title class="text-center pt-6">Choose an album</v-card-title>
+				<v-card-title class="text-center pt-6"> Choose an album </v-card-title>
 				<v-card-text>
-					<v-list>
-						<v-list-item v-for="album in artist.data.albums" :key="album" :to="getAlbumPath(album)" @click="albumDialog = false">
-							<v-list-item-title>
-								{{ album }}
-							</v-list-item-title>
-						</v-list-item>
-					</v-list>
+					<v-row justify="center" class="mt-8">
+						<v-col v-for="album in artist.data.albums" :key="album.id" class="text-center">
+							<v-btn icon variant="text" width="80" height="80" :to="`/${artist.id}/albums/${album.id}`" @click="albumDialog = false">
+								<v-avatar size="80" :image="album.icon" />
+							</v-btn>
+							<p>{{ album.name }}</p>
+						</v-col>
+					</v-row>
 				</v-card-text>
 			</v-card>
 		</v-dialog>

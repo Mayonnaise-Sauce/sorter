@@ -1,6 +1,5 @@
-// ! Artists list
-import katarsisIcon from "@/assets/icons/katarsis.jpg";
-import akliIcon from "@/assets/icons/akli.jpg";
+import katarsisIcon from "@/assets/icons/katarsis/katarsis.jpg";
+import akliIcon from "@/assets/icons/akli/akli.jpg";
 
 import katarsis from "@/scripts/katarsis.js";
 import akli from "@/scripts/akli.js";
