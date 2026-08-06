@@ -2,6 +2,8 @@ import { reactive } from "vue";
 
 // Default values used to initialize and reset the sorter state
 const initialState = {
+	customSorterTitle: "", // Title of the custom sorter
+
 	sortingItems: [], // Original items to sort
 	lists: [], // Lists created while splitting the items
 	parents: [], // Stores which list created each smaller list
@@ -19,7 +21,7 @@ const initialState = {
 	totalSize: 0, // Total number of comparisons needed
 	finishedSize: 0, // Number of comparisons already completed
 
-	finished: false, // Indicates whether sorting has finished
+	finished: false, // Indicates whether sorting has finish
 
 	ranking: [], // Final sorted ranking
 };
@@ -52,6 +54,7 @@ export function useSorter() {
 	function initSorter(sorter) {
 		reset();
 
+		state.title = sorter.title;
 		state.sortingItems = shuffle(sorter.items);
 		state.lists = [state.sortingItems.map((_, index) => index)];
 		state.parents = [-1];
@@ -74,10 +77,10 @@ export function useSorter() {
 	}
 
 	// Creates a sorter using a custom list of items
-	function initCustomSorter(items) {
+	function initCustomSorter(title, items) {
 		initSorter({
 			id: "custom",
-			title: "Custom Sorter",
+			title: title || "Custom Sorter",
 			items,
 		});
 	}
