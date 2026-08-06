@@ -24,6 +24,30 @@ const currentData = computed(() => {
 	return artist.value?.data;
 });
 
+// Generates the title for the sorter based on the current route
+const sorterTitle = computed(() => {
+	if (!currentData.value) {
+		return "";
+	}
+
+	if (props.album) {
+		const album = currentData.value.albums.find((a) => a.id === props.album);
+		const albumName = album?.name.toUpperCase();
+		return `${albumName} SONGS`;
+	}
+
+	switch (props.type) {
+		case "songs":
+			return `${currentData.value.title} SONGS`;
+
+		case "albums":
+			return `${currentData.value.title} ALBUMS`;
+
+		default:
+			return currentData.value.title;
+	}
+});
+
 // Gets the items that should be sorted
 function getItems() {
 	if (!artist.value) {
@@ -32,9 +56,7 @@ function getItems() {
 
 	// Sort songs from a specific album
 	if (props.album) {
-		const album = artist.value.data.albums.find(
-			(album) => album.id === props.album
-		);
+		const album = artist.value.data.albums.find((album) => album.id === props.album);
 
 		return album?.songs;
 	}
@@ -92,63 +114,68 @@ function choose(value) {
 
 <template>
 	<v-container class="fill-height">
-		<!-------------------- TITLE -------------------->
+		<!-- TITLE -->
 		<v-row justify="center">
 			<v-col cols="12" class="text-center">
-				<h2>{{ props.sorter === "custom" ? "CUSTOM SORTER" : currentData?.title }}</h2>
+				<h2>{{ props.sorter === "custom" ? "CUSTOM SORTER" : sorterTitle }}</h2>
 				<p>
-					Choose the option you prefer in each battle to create an accurate ranking of your favorite items. <br />
-					Note: Selecting "I like both" or "No opinion" too often may affect the accuracy of your results.
+					Choose the option you prefer in each battle.
+					<br />
+					Selecting "I like both" or "No opinion" too often may affect the accuracy of your results
 				</p>
 			</v-col>
 		</v-row>
-		<!-------------------- BATTLE -------------------->
-		<v-row v-if="!sorterState.finished" justify="center">
+		<!-- BATTLE -->
+		<v-row justify="center">
 			<v-col cols="12" class="text-center">
-				<h3>
-					Battle #{{ sorterState.question }}
-					<br />
-					{{ sorterActions.progress() }}% sorted
-				</h3>
+				<h3 v-if="!sorterState.finished">Battle #{{ sorterState.question }}</h3>
+				<h3 v-else>Total number of battles: {{ sorterState.question - 1 }}</h3>
+				<v-progress-linear height="30" color="blue-grey" :model-value="sorterActions.progress()" rounded>{{ sorterActions.progress() }}%</v-progress-linear>
 			</v-col>
 		</v-row>
-		<!-------------------- ITEM BUTTONS -------------------->
-		<v-row v-if="!sorterState.finished" style="height: 20%" align="stretch">
+		<!-- ITEM BUTTONS -->
+		<v-row v-if="!sorterState.finished" class="sorter" justify="center" style="height: 20%" align="stretch">
 			<v-col cols="4">
-				<button class="w-100 h-100" @click="choose(-1)">
+				<v-btn class="sorter-button w-100 h-100" @click="choose(-1)">
 					{{ leftItem }}
-				</button>
+				</v-btn>
 			</v-col>
 			<v-col cols="4" class="d-flex flex-column">
-				<button class="w-100 h-100 mb-2" @click="choose(0)">I like both</button>
-				<button class="w-100 h-100" @click="choose(0)">No opinion</button>
+				<v-btn class="flex-grow-1 mb-4" @click="choose(0)">I like both</v-btn>
+				<v-btn class="flex-grow-1" @click="choose(0)">No opinion</v-btn>
 			</v-col>
 			<v-col cols="4">
-				<button class="w-100 h-100" @click="choose(1)">
+				<v-btn class="sorter-button w-100 h-100" @click="choose(1)">
 					{{ rightItem }}
-				</button>
+				</v-btn>
 			</v-col>
 		</v-row>
-		<!-------------------- RESULTS TABLE -------------------->
+		<!-- RESULTS TABLE -->
 		<v-row v-else justify="center">
-			<v-col cols="12" class="text-center">
-				<h2>Ranking</h2>
-				<p>You can start over by reloading the page.</p>
+			<v-col cols="6" class="text-center">
+				<p>Your ranking has been generated.</p>
 				<v-table striped="even">
-					<thead>
-						<tr>
-							<th class="text-center">Rank</th>
-							<th class="text-center">Items</th>
-						</tr>
-					</thead>
 					<tbody>
 						<tr v-for="item in sorterState.ranking" :key="item.position">
-							<td>{{ item.position }}</td>
-							<td>{{ item.name }}</td>
+							<td class="text-right" style="width: 80px"># {{ item.position }}</td>
+							<td class="text-center">{{ item.name }}</td>
 						</tr>
 					</tbody>
 				</v-table>
+				<p>You can start over by reloading the page.</p>
 			</v-col>
 		</v-row>
 	</v-container>
 </template>
+
+<style lang="css">
+.sorter-button {
+	font-size: 20px;
+}
+
+.sorter-button .v-btn__content {
+	white-space: normal;
+	overflow-wrap: anywhere;
+	text-align: center;
+}
+</style>

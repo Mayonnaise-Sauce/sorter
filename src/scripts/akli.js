@@ -4,7 +4,7 @@ import iiiIcon from "@/assets/icons/akli/iii.jpg"
 
 export default {
 	id: "akli",
-	title: "AKLÌ SORTER",
+	title: "AKLÌ",
 	songs: [
         "Tame",
         "Daylight",

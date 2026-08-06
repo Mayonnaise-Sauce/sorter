@@ -3,7 +3,7 @@ import ziedlapisTauIcon from "@/assets/icons/katarsis/ziedlapisTau.jpg"
 
 export default {
 	id: "katarsis",
-	title: "KATARSIS SORTER",
+	title: "KATARSIS",
 	songs: [
 		"Niekas",
 		"Vasarą galvoj minoras",
