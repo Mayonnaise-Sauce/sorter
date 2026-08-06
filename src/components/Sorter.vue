@@ -14,12 +14,12 @@ const props = defineProps({
 	album: String,
 });
 
-// Find the current artist
+// Finds the current artist
 const artist = computed(() => {
 	return artists.find((artist) => artist.id === props.sorter);
 });
 
-// Get the current artist's data
+// Gets the current artist's data
 const currentData = computed(() => {
 	return artist.value?.data;
 });
@@ -103,12 +103,15 @@ const rightItem = computed(() => {
 	return sorterState.sortingItems[index];
 });
 
-// Send the user's choice to the sorter
+// Sends the user's choice to the sorter
 // -1 = left option selected
 //  0 = both options are equal
 //  1 = right option selected
 function choose(value) {
 	sorterActions.choose(value);
+
+    // Removes button focus after clicking
+    event.currentTarget.blur();
 }
 </script>
 
@@ -152,7 +155,7 @@ function choose(value) {
 		</v-row>
 		<!-- RESULTS TABLE -->
 		<v-row v-else justify="center">
-			<v-col cols="6" class="text-center">
+			<v-col cols="8" sm="8" md="6" lg="6" class="text-center">
 				<p>Your ranking has been generated.</p>
 				<v-table striped="even">
 					<tbody>
@@ -169,13 +172,8 @@ function choose(value) {
 </template>
 
 <style lang="css">
-.sorter-button {
-	font-size: 20px;
-}
-
 .sorter-button .v-btn__content {
 	white-space: normal;
 	overflow-wrap: anywhere;
-	text-align: center;
 }
 </style>

@@ -46,7 +46,7 @@ function done() {
 	<v-container class="fill-height">
 		<!-- TITLE -->
 		<v-row justify="center">
-			<v-col cols="12" class="text-center">
+			<v-col cols="8" class="text-center">
 				<h1>CUSTOM SORTER</h1>
 				<p>Create your own ranking by adding the options you want to compare.</p>
 			</v-col>

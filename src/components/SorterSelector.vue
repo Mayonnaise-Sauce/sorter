@@ -30,19 +30,19 @@ const albumDialog = ref(false);
 		</v-row>
 		<!-- SORTERS -->
 		<v-row justify="center">
-			<v-col cols="4" class="d-flex">
+			<v-col cols="12" sm="6" md="6" lg="4" class="d-flex">
 				<v-card class="pa-8 w-100 text-center" :to="`/${artist.id}/songs`">
 					<v-card-title>Songs</v-card-title>
 					<v-card-subtitle class="text-wrap">Sort all {{ artist.name }} songs</v-card-subtitle>
 				</v-card>
 			</v-col>
-			<v-col cols="4" class="d-flex">
+			<v-col cols="12" sm="6" md="6" lg="4" class="d-flex">
 				<v-card class="pa-8 w-100 text-center" :to="`/${artist.id}/albums`">
 					<v-card-title>Albums</v-card-title>
 					<v-card-subtitle class="text-wrap">Sort all {{ artist.name }} albums</v-card-subtitle>
 				</v-card>
 			</v-col>
-			<v-col cols="4" class="d-flex">
+			<v-col cols="12" sm="6" md="6" lg="4" class="d-flex">
 				<v-card class="pa-8 w-100 text-center" @click="albumDialog = true">
 					<v-card-title>Album songs</v-card-title>
 					<v-card-subtitle class="text-wrap">Choose an album and sort its songs</v-card-subtitle>
