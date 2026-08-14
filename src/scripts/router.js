@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
 import Home from "@/components/Home.vue";
 import SorterSelector from "@/components/SorterSelector.vue";
@@ -11,7 +11,7 @@ const routes = [
 		path: "/",
 		component: Home,
 	},
-	// -------------------- CUSTOM SORTER --------------------
+	// CUSTOM SORTER
 	{
 		name: "custom",
 		path: "/custom",
@@ -25,7 +25,7 @@ const routes = [
 			sorter: "custom",
 		},
 	},
-	// -------------------- ARTIST SORTERS --------------------
+	// ARTIST SORTERS
 	{
 		name: "sorterSelector",
 		path: "/:sorter",
@@ -51,7 +51,7 @@ const routes = [
 
 // Create the Vue Router instance
 const router = createRouter({
-	history: createWebHistory(import.meta.env.BASE_URL),
+	history: createWebHashHistory(import.meta.env.BASE_URL),
 	routes,
 });
 

@@ -53,25 +53,6 @@ npm run dev
 
 Then open the local URL shown by Vite in your browser.
 
-## Project structure
-
-```text
-src/
-├── assets/
-├── components/
-│   ├── Home.vue
-│   ├── Sorter.vue
-│   ├── SorterSelector.vue
-│   └── CustomSorter.vue
-├── scripts/
-│   ├── artists.js
-│   ├── katarsis.js
-│   ├── akli.js
-│   ├── sorter.js
-│   └── router.js
-└── App.vue
-```
-
 ## Notes
 
 This is a personal project made for sharing with friends. It is not intended to be a public music database or a commercial application.
