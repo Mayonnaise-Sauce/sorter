@@ -2,7 +2,7 @@
 import packageJson from "@/../package.json";
 
 import AppHeader from "@/components/AppHeader.vue";
-import { artists } from "@/scripts/artists.js";
+import { artists } from "@/data/artists.js";
 </script>
 
 <template>

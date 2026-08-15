@@ -1,6 +1,6 @@
 <script setup>
 import customIcon from "@/assets/icons/custom.png";
-import { artists } from "@/scripts/artists.js";
+import { artists } from "@/data/artists.js";
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from "vue";
-import { artists } from "@/scripts/artists.js";
+import { artists } from "@/data/artists.js";
 
 // Artist ID received from the route
 const props = defineProps({

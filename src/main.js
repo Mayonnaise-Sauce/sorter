@@ -5,8 +5,8 @@ import { createApp } from "vue";
 
 import App from "@/App.vue";
 
-import router from "@/scripts/router.js";
-import { useSorter } from "@/scripts/sorter.js";
+import router from "@/router";
+import { useSorter } from "@/composables/useSorter.js";
 
 import "vuetify/styles";
 import { createVuetify } from "vuetify";

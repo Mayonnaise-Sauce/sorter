@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject, watch } from "vue";
 
-import { artists } from "@/scripts/artists.js";
+import { artists } from "@/data/artists.js";
 
 // Accesses global sorter state and actions provided in main.js
 const sorterState = inject("sorterState");
