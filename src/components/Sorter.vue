@@ -76,9 +76,7 @@ watch(
 	() => {
 		const items = getItems();
 
-		if (!items) {
-			return;
-		}
+		if (!items) return;
 
 		sorterActions.initSorter({
 			id: artist.value.data.id,
@@ -92,26 +90,20 @@ watch(
 // Gets the current left item
 const leftItem = computed(() => {
 	const index = sorterState.lists[sorterState.currentLeftList]?.[sorterState.leftIndex];
-
 	return sorterState.sortingItems[index];
 });
 
 // Gets the current right item
 const rightItem = computed(() => {
 	const index = sorterState.lists[sorterState.currentRightList]?.[sorterState.rightIndex];
-
 	return sorterState.sortingItems[index];
 });
 
 // Sends the user's choice to the sorter
-// -1 = left option selected
-//  0 = both options are equal
-//  1 = right option selected
-function choose(value) {
+function choose(value, ev) {
 	sorterActions.choose(value);
 
-    // Removes button focus after clicking
-    event.currentTarget.blur();
+	if (ev && ev.currentTarget) ev.currentTarget.blur();
 }
 </script>
 
@@ -139,16 +131,16 @@ function choose(value) {
 		<!-- ITEM BUTTONS -->
 		<v-row v-if="!sorterState.finished" class="sorter" justify="center" style="height: 20%" align="stretch">
 			<v-col cols="4">
-				<v-btn class="sorter-button w-100 h-100" @click="choose(-1)">
+				<v-btn class="sorter-button w-100 h-100" @click="choose(-1, $event)">
 					{{ leftItem }}
 				</v-btn>
 			</v-col>
 			<v-col cols="4" class="d-flex flex-column">
-				<v-btn class="flex-grow-1 mb-4" @click="choose(0)">I like both</v-btn>
-				<v-btn class="flex-grow-1" @click="choose(0)">No opinion</v-btn>
+				<v-btn class="flex-grow-1 mb-4" @click="choose(0, $event)">I like both</v-btn>
+				<v-btn class="flex-grow-1" @click="choose(0, $event)">No opinion</v-btn>
 			</v-col>
 			<v-col cols="4">
-				<v-btn class="sorter-button w-100 h-100" @click="choose(1)">
+				<v-btn class="sorter-button w-100 h-100" @click="choose(1, $event)">
 					{{ rightItem }}
 				</v-btn>
 			</v-col>

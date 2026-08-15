@@ -2,7 +2,7 @@ import { reactive } from "vue";
 
 // Default values used to initialize and reset the sorter state
 const initialState = {
-	customSorterTitle: "", // Title of the custom sorter
+	title: "", // Title of the sorter
 
 	sortingItems: [], // Original items to sort
 	lists: [], // Lists created while splitting the items
@@ -105,6 +105,9 @@ export function useSorter() {
 
 			state.results.push(left, right);
 			state.equals[left] = right;
+
+			// If both items are equal we increment finishedSize twice because we are effectively finishing two comparisons at once
+			state.finishedSize++;
 		}
 
 		state.finishedSize++;

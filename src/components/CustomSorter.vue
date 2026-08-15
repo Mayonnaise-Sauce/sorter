@@ -38,7 +38,7 @@ function done() {
 
 	sorterActions.initCustomSorter(sorterTitle.value.trim(), items.value);
 
-	router.push("/custom/sorter");
+	router.push({ name: "customSorter" });
 }
 </script>
 

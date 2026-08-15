@@ -38,7 +38,8 @@ export default {
         "D.I.E",
         "Per saldu",
         "ŽGŽ",
-        "Morfinas"
+        "Morfinas",
+        "KOPIJOS KOPIJA"
     ],
     albums: [
 		{
