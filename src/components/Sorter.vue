@@ -112,7 +112,7 @@ function choose(value, ev) {
 		<!-- TITLE -->
 		<v-row justify="center">
 			<v-col cols="12" class="text-center">
-				<h2>{{ props.sorter === "custom" ? "CUSTOM SORTER" : sorterTitle }}</h2>
+				<h2>{{ props.sorter === "custom" ? sorterState.title.toUpperCase() + " SORTER" : sorterTitle.toUpperCase() }}</h2>
 				<p>
 					Choose the option you prefer in each battle.
 					<br />
@@ -129,31 +129,31 @@ function choose(value, ev) {
 			</v-col>
 		</v-row>
 		<!-- ITEM BUTTONS -->
-		<v-row v-if="!sorterState.finished" class="sorter" justify="center" style="height: 20%" align="stretch">
-			<v-col cols="4">
-				<v-btn class="sorter-button w-100 h-100" @click="choose(-1, $event)">
+		<v-row v-if="!sorterState.finished" class="sorter" justify="center">
+			<v-col cols="4" class="left-col">
+				<v-btn class="sorter-button full-size-btn" @click="choose(-1, $event)">
 					{{ leftItem }}
 				</v-btn>
 			</v-col>
-			<v-col cols="4" class="d-flex flex-column">
-				<v-btn class="flex-grow-1 mb-4" @click="choose(0, $event)">I like both</v-btn>
+			<v-col cols="4" class="center-col d-flex flex-column">
+				<v-btn class="flex-grow-1 mb-2" @click="choose(0, $event)">I like both</v-btn>
 				<v-btn class="flex-grow-1" @click="choose(0, $event)">No opinion</v-btn>
 			</v-col>
-			<v-col cols="4">
-				<v-btn class="sorter-button w-100 h-100" @click="choose(1, $event)">
+			<v-col cols="4" class="right-col">
+				<v-btn class="sorter-button full-size-btn" @click="choose(1, $event)">
 					{{ rightItem }}
 				</v-btn>
 			</v-col>
 		</v-row>
 		<!-- RESULTS TABLE -->
 		<v-row v-else justify="center">
-			<v-col cols="8" sm="8" md="6" lg="6" class="text-center">
+			<v-col cols="8" class="text-center">
 				<p>Your ranking has been generated.</p>
-				<v-table striped="even">
+				<v-table class="ranking-table" striped="even">
 					<tbody>
 						<tr v-for="item in sorterState.ranking" :key="item.position">
-							<td class="text-right" style="width: 80px"># {{ item.position }}</td>
-							<td class="text-center">{{ item.name }}</td>
+							<td class="text-right"># {{ item.position }}</td>
+							<td class="text-center py-4">{{ item.name }}</td>
 						</tr>
 					</tbody>
 				</v-table>
@@ -163,9 +163,52 @@ function choose(value, ev) {
 	</v-container>
 </template>
 
-<style lang="css">
-.sorter-button .v-btn__content {
-	white-space: normal;
-	overflow-wrap: anywhere;
+<style scoped>
+/* Keeps table full width and lets columns size naturally */
+.ranking-table table {
+	width: 100%;
+	table-layout: auto;
+}
+
+/* Keeps rank number on one line and aligns it right */
+.ranking-table .rank-index,
+.ranking-table td:first-child {
+	white-space: nowrap;
+	padding-right: 12px;
+	text-align: right;
+}
+
+/* Small-screen: Shows left and right buttons at the top, and neutral buttons below them in a row. */
+@media (max-width: 375px) {
+	.sorter {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	.sorter .left-col,
+	.sorter .right-col {
+		order: 1;
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
+
+	.sorter .center-col {
+		order: 2;
+		flex: 0 0 100%;
+		max-width: 100%;
+		flex-direction: row;
+		gap: 10px;
+	}
+
+	/* Increase touch target and weight for small screens */
+	.sorter .left-col .v-btn,
+	.sorter .right-col .v-btn {
+		padding: 20px;
+	}
+
+	.center-col .v-btn {
+		padding: 15px;
+	}
 }
 </style>
